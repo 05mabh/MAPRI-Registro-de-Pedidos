@@ -352,6 +352,27 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
   border-radius:8px;padding:3px 10px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:800;
   color:var(--brasa);letter-spacing:1px;margin-top:6px;}
 
+/* RESULTADO DE VISITA */
+.resultado-bar{display:flex;gap:8px;margin:0 16px 12px;flex-shrink:0;}
+.btn-resultado{flex:1;padding:11px 8px;border-radius:12px;border:1.5px solid rgba(255,255,255,.12);
+  background:transparent;color:var(--crema2);font-family:'Barlow Condensed',sans-serif;
+  font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:6px;transition:all .2s;}
+.btn-resultado.res-pedido.active{background:rgba(45,106,79,.2);border-color:var(--verde2);color:#6ECFA0;}
+.btn-resultado.res-noc.active{background:rgba(232,58,58,.15);border-color:#F87171;color:#F87171;}
+.visita-noc-box{margin:0 16px 10px;flex-shrink:0;display:none;}
+.btn-continuar{margin:0 16px 8px;background:var(--brasa);border:none;border-radius:14px;padding:14px;
+  font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;letter-spacing:2px;
+  text-transform:uppercase;color:white;cursor:pointer;width:calc(100% - 32px);
+  display:flex;align-items:center;justify-content:center;gap:8px;flex-shrink:0;}
+.btn-registrar-visita{margin:0 16px 8px;background:var(--gris2);border:none;border-radius:14px;padding:14px;
+  font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;letter-spacing:2px;
+  text-transform:uppercase;color:var(--crema2);cursor:pointer;width:calc(100% - 32px);
+  display:flex;align-items:center;justify-content:center;gap:8px;flex-shrink:0;}
+.cliente-seleccionado-tag{margin:0 16px 8px;background:rgba(45,106,79,.15);border:1px solid rgba(61,138,101,.3);
+  border-radius:10px;padding:9px 14px;font-size:12px;color:#6ECFA0;display:none;flex-shrink:0;
+  align-items:center;gap:8px;}
+
 /* SYNC */
 .btn-sync{width:100%;margin-bottom:14px;background:rgba(59,130,246,.12);border:1.5px solid rgba(59,130,246,.4);
   border-radius:14px;padding:13px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;
@@ -433,21 +454,21 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
       <span id="gps-time"></span>
     </div>
 
-    <div class="segmento-bar">
-      <button class="seg-btn seg-hogar" data-seg="hogar" onclick="setSegmento(this,'hogar')"><span>🏠</span>Hogar</button>
-      <button class="seg-btn seg-mercado" data-seg="mercado" onclick="setSegmento(this,'mercado')"><span>🏪</span>Mercado</button>
-      <button class="seg-btn seg-horeca active" data-seg="horeca" onclick="setSegmento(this,'horeca')"><span>🍽️</span>HORECA</button>
-      <button class="seg-btn seg-institucional" data-seg="institucional" onclick="setSegmento(this,'institucional')"><span>🏢</span>Institucional</button>
+    <!-- RESULTADO DE VISITA -->
+    <p style="font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(200,191,168,.5);padding:8px 20px 2px;flex-shrink:0;">Resultado de visita</p>
+    <div class="resultado-bar">
+      <button class="btn-resultado res-pedido active" id="btn-res-pedido" onclick="setResultadoVisita('pedido')">📦 Hacer pedido</button>
+      <button class="btn-resultado res-noc" id="btn-res-noc" onclick="setResultadoVisita('noc')">🚫 No compró</button>
     </div>
 
     <div class="scroll-area">
 
       <!-- CLIENTE -->
-      <p class="section-label">Cliente del pedido <button onclick="abrirNuevoCliente()">+ Nuevo</button></p>
+      <p class="section-label">Seleccionar cliente <button onclick="abrirNuevoCliente()">+ Nuevo</button></p>
       <div class="cliente-card">
         <input class="cliente-search" type="text" placeholder="🔍  Buscar por nombre o código..." id="cliente-search" oninput="filtrarClientes(this.value)">
         <div class="cliente-list" id="cliente-list">
-          <div class="cliente-item selected" onclick="selectCliente(this,'Rest. El Fogón','HORECA · Zona 10 · Crédito 15 días','horeca')">
+          <div class="cliente-item" onclick="selectCliente(this,'Rest. El Fogón','HORECA · Zona 10 · Crédito 15 días','horeca')">
             <span class="cliente-code">C001</span>
             <div style="flex:1;"><div class="cliente-name">Rest. El Fogón</div><div class="cliente-tipo">Crédito 15 días</div></div>
             <span class="canal-badge canal-horeca">HORECA</span>
@@ -475,6 +496,32 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
         </div>
       </div>
 
+      <!-- MOTIVO NO COMPRA (oculto por defecto) -->
+      <div class="visita-noc-box" id="visita-noc-box">
+        <p class="section-label" style="margin-top:0;">Motivo de no compra</p>
+        <textarea class="nota-input" id="visita-motivo" rows="3"
+          placeholder="Ej: Sin presupuesto, local cerrado, ya tiene proveedor..."></textarea>
+      </div>
+
+      <div style="height:4px;"></div>
+    </div>
+
+    <!-- TAG cliente seleccionado -->
+    <div class="cliente-seleccionado-tag" id="cliente-tag">✓ <span id="cliente-tag-nombre">—</span></div>
+
+    <!-- BOTÓN ACCIÓN según resultado -->
+    <button class="btn-continuar" id="btn-continuar-pedido" style="display:none;" onclick="continuarAPedido()">Continuar al catálogo →</button>
+    <button class="btn-registrar-visita" id="btn-reg-visita" style="display:none;" onclick="registrarVisitaSinVenta()">📍 Registrar visita sin venta</button>
+
+    <!-- SECCIÓN PRODUCTOS (oculta hasta confirmar) -->
+    <div id="seccion-productos" style="display:none;flex-direction:column;flex:1;overflow:hidden;min-height:0;">
+      <div class="segmento-bar" style="flex-shrink:0;">
+        <button class="seg-btn seg-hogar" data-seg="hogar" onclick="setSegmento(this,'hogar')"><span>🏠</span>Hogar</button>
+        <button class="seg-btn seg-mercado" data-seg="mercado" onclick="setSegmento(this,'mercado')"><span>🏪</span>Mercado</button>
+        <button class="seg-btn seg-horeca active" data-seg="horeca" onclick="setSegmento(this,'horeca')"><span>🍽️</span>HORECA</button>
+        <button class="seg-btn seg-institucional" data-seg="institucional" onclick="setSegmento(this,'institucional')"><span>🏢</span>Institucional</button>
+      </div>
+      <div class="scroll-area" style="flex:1;">
       <!-- BUSCADOR / CÓDIGO RÁPIDO -->
       <p class="section-label">Productos</p>
       <div class="codigo-wrap">
@@ -491,9 +538,10 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
       <!-- ACORDEÓN -->
       <div id="acordeon-productos"></div>
       <div style="height:16px;"></div>
-    </div>
+      </div><!-- /scroll-area productos -->
+    </div><!-- /seccion-productos -->
 
-    <div class="resumen-bar" onclick="goTo('s-resumen')">
+    <div class="resumen-bar" id="resumen-bar-btn" style="display:none;" onclick="goTo('s-resumen')">
       <div class="resumen-left">
         <div class="resumen-count" id="resumen-count">0</div>
         <span class="resumen-text">Ver resumen del pedido</span>
@@ -556,7 +604,9 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
     </div>
     <div class="scroll-area" style="padding-top:14px;">
       <button class="btn-sync" id="btn-sync" onclick="sincronizarPedidos()">☁️ Sincronizar con Google Sheets</button>
+      <button class="btn-sync" id="btn-test-sync" style="margin-bottom:6px;opacity:.6;font-size:10px;padding:9px;" onclick="probarConexion()">🔗 Probar conexión</button>
       <div class="sync-status" id="sync-status"></div>
+      <button class="btn-sync" style="margin-bottom:14px;background:rgba(240,180,41,.12);border-color:rgba(240,180,41,.4);color:var(--amarillo);" onclick="goTo('s-dia')">📅 Ver resumen del día</button>
       <p class="pend-section-title">📤 Bandeja de pendientes <span id="pend-count-txt"></span></p>
       <div id="bandeja-pendientes"></div>
       <p class="section-label">Pedidos recientes</p>
@@ -665,6 +715,12 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
         <div id="dash-por-seg"><div style="font-size:12px;color:rgba(245,239,224,.25);text-align:center;padding:10px;">Sin datos aún</div></div>
       </div>
 
+      <!-- Resumen del día -->
+      <div class="dash-card">
+        <div class="dash-card-title">📅 Resumen del día — <span id="dash-fecha-hoy"></span></div>
+        <div id="dash-resumen-dia"><div style="font-size:12px;color:rgba(245,239,224,.25);text-align:center;padding:10px;">Sin actividad hoy</div></div>
+      </div>
+
       <!-- Vendedor activo -->
       <div class="dash-card" id="dash-vend-card">
         <div class="dash-card-title">👤 Vendedor Activo</div>
@@ -678,6 +734,38 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
       <button class="nav-btn" onclick="goTo('s-historial')"><span class="nav-badge" id="nav-badge-dash"></span><span class="nav-icon">📦</span><span class="nav-label">Historial</span></button>
       <button class="nav-btn" onclick="goTo('s-clientes')"><span class="nav-icon">👥</span><span class="nav-label">Clientes</span></button>
       <button class="nav-btn active"><span class="nav-icon">📊</span><span class="nav-label">Dashboard</span></button>
+    </div>
+  </div>
+
+  <!-- RESUMEN DEL DÍA -->
+  <div class="screen" id="s-dia">
+    <div class="app-header">
+      <div class="header-top">
+        <div class="header-logo">
+          <svg width="60" height="32" viewBox="0 0 60 32"><path d="M4,3 L4,20 L12,20 L12,10 L20,18 L20,3 Z" fill="#E8601A"/><path d="M20,3 L20,18 L28,10 L28,20 L36,20 L36,3 L28,3 L20,9 L12,3 Z" fill="#F5EFE0"/><circle cx="38" cy="18" r="2" fill="#F5EFE0"/></svg>
+          <div><span class="header-logo-text">MAPRI</span><span class="header-logo-sub" id="dia-header-sub">Resumen del día</span></div>
+        </div>
+        <div class="user-avatar" id="dia-avatar">CM</div>
+      </div>
+    </div>
+    <div class="scroll-area" style="padding-top:14px;">
+      <p class="dash-periodo" id="dia-titulo">—</p>
+      <div class="dash-kpi-grid">
+        <div class="dash-kpi full"><div class="dash-kpi-val" id="dia-total-val">Q 0.00</div><div class="dash-kpi-label">Ventas del día</div></div>
+        <div class="dash-kpi"><div class="dash-kpi-val" id="dia-pedidos-val">0</div><div class="dash-kpi-label">Pedidos</div></div>
+        <div class="dash-kpi verde"><div class="dash-kpi-val" id="dia-comision-val">Q 0.00</div><div class="dash-kpi-label">Comisión Est.</div></div>
+        <div class="dash-kpi azul"><div class="dash-kpi-val" id="dia-visitas-val">0</div><div class="dash-kpi-label">Visitas s/venta</div></div>
+        <div class="dash-kpi amarillo"><div class="dash-kpi-val" id="dia-clientes-val">0</div><div class="dash-kpi-label">Clientes atend.</div></div>
+      </div>
+      <p class="section-label" style="margin-top:14px;">Pedidos del día — detalle</p>
+      <div id="dia-lista"></div>
+      <div style="height:16px;"></div>
+    </div>
+    <div class="bottom-nav">
+      <button class="nav-btn" onclick="goTo('s-pedido')"><span class="nav-icon">📋</span><span class="nav-label">Pedido</span></button>
+      <button class="nav-btn active" onclick="goTo('s-historial')"><span class="nav-icon">📦</span><span class="nav-label">Historial</span></button>
+      <button class="nav-btn" onclick="goTo('s-clientes')"><span class="nav-icon">👥</span><span class="nav-label">Clientes</span></button>
+      <button class="nav-btn" onclick="goTo('s-dashboard')"><span class="nav-icon">📊</span><span class="nav-label">Dashboard</span></button>
     </div>
   </div>
 
@@ -836,8 +924,10 @@ const SEG_TAG_CLASS = {hogar:'seg-hogar-tag',mercado:'seg-mercado-tag',horeca:'s
 
 // ═══ ESTADO ═══
 let segmentoActual = 'horeca';
-let seccionesAbiertas = new Set(['res']);
-let clienteActual = {nombre:'Rest. El Fogón', sub:'HORECA · Zona 10 · Crédito 15 días', segmento:'horeca'};
+let seccionesAbiertas = new Set();
+let clienteActual = {nombre:'', sub:'', segmento:'horeca'};
+let resultadoVisita = 'pedido'; // 'pedido' | 'noc'
+let clienteConfirmado = false;
 let gpsCoords = 'No disponible';
 let carrito = {};
 let clientesNuevos = [];
@@ -936,7 +1026,38 @@ function renderDashboard() {
   // Periodo
   const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
   document.getElementById('dash-periodo').textContent =
-    meses[mesActual]+' '+anioActual+' · '+totalPedidos+' pedido'+(totalPedidos!==1?'s':'')+' en bandeja';
+    meses[mesActual]+' '+anioActual+' · '+totalPedidos+' registro'+(totalPedidos!==1?'s':'')+' en bandeja';
+
+  // ── Resumen del día ──
+  const hoyStr = new Date().toLocaleDateString('es-GT',{day:'2-digit',month:'2-digit',year:'numeric'});
+  document.getElementById('dash-fecha-hoy').textContent = hoyStr;
+  const hoy = lista.filter(p => p.timestamp && p.timestamp.startsWith(hoyStr));
+  const pedidosHoy  = hoy.filter(p => p.tipo !== 'visita_sin_venta');
+  const visitasHoy  = hoy.filter(p => p.tipo === 'visita_sin_venta');
+  const ventasHoy   = pedidosHoy.reduce((s,p) => s+(p.total||0), 0);
+  const diaEl = document.getElementById('dash-resumen-dia');
+  if(!hoy.length){
+    diaEl.innerHTML = '<div style="font-size:12px;color:rgba(245,239,224,.25);text-align:center;padding:10px;">Sin actividad hoy</div>';
+  } else {
+    const resumenRows = [
+      `<div class="dash-rank-item"><span class="dash-rank-pos">📦</span><span class="dash-rank-nombre">Pedidos tomados hoy</span><span class="dash-rank-val">${pedidosHoy.length}</span></div>`,
+      `<div class="dash-rank-item"><span class="dash-rank-pos">📍</span><span class="dash-rank-nombre">Visitas sin venta</span><span class="dash-rank-val">${visitasHoy.length}</span></div>`,
+      `<div class="dash-rank-item"><span class="dash-rank-pos">💰</span><span class="dash-rank-nombre">Ventas del día</span><span class="dash-rank-val" style="color:var(--brasa);">${fmt(ventasHoy)}</span></div>`,
+    ].join('');
+    const detalleRows = pedidosHoy.map(p=>`
+      <div class="dash-rank-item">
+        <span class="dash-rank-pos" style="font-size:11px;width:40px;">${p.numPedido||'—'}</span>
+        <span class="dash-rank-nombre">${(p.cliente||{}).nombre||'—'}</span>
+        <span class="dash-rank-val">${fmt(p.total||0)}</span>
+      </div>`).join('');
+    const visitaRows = visitasHoy.map(p=>`
+      <div class="dash-rank-item">
+        <span class="dash-rank-pos">🚫</span>
+        <span class="dash-rank-nombre">${(p.cliente||{}).nombre||'—'}</span>
+        <span class="dash-rank-val" style="color:rgba(200,191,168,.4);">Sin venta</span>
+      </div>`).join('');
+    diaEl.innerHTML = resumenRows + (detalleRows||'') + (visitaRows||'');
+  }
 
   // Top 5 productos
   const topProds = Object.values(conteoProds).sort((a,b)=>b.qty-a.qty).slice(0,5);
@@ -970,6 +1091,108 @@ function renderDashboard() {
   else { vEl.innerHTML='<div style="font-size:12px;color:rgba(245,239,224,.25);">Inicia sesión para ver tus datos</div>'; }
 }
 
+// ═══ RESUMEN DEL DÍA ═══
+function renderResumenDia() {
+  const lista   = cargarPendientes();
+  const hoyStr  = new Date().toLocaleDateString('es-GT',{day:'2-digit',month:'2-digit',year:'numeric'});
+  const hoy     = lista.filter(p => p.timestamp && p.timestamp.startsWith(hoyStr));
+  const pedidos = hoy.filter(p => p.tipo !== 'visita_sin_venta');
+  const visitas = hoy.filter(p => p.tipo === 'visita_sin_venta');
+  const totalHoy    = pedidos.reduce((s,p)=>s+(p.total||0), 0);
+  const clientesHoy = new Set(hoy.map(p=>(p.cliente||{}).nombre)).size;
+  const comisionHoy = totalHoy * (vendedorActual ? vendedorActual.comision : 0.03);
+  const fmt = v => 'Q '+v.toFixed(2);
+  const diasN  = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  const mesesN = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  const now = new Date();
+
+  // Header vendedor
+  const v = vendedorActual;
+  if(v){
+    document.getElementById('dia-header-sub').textContent = v.nombre.split(' ').slice(0,2).join(' ');
+    document.getElementById('dia-avatar').textContent     = v.avatar;
+  }
+
+  // Título
+  document.getElementById('dia-titulo').textContent =
+    diasN[now.getDay()]+' '+now.getDate()+' '+mesesN[now.getMonth()]+' '+now.getFullYear()+
+    ' · '+hoy.length+' registro'+(hoy.length!==1?'s':'');
+
+  // KPIs
+  document.getElementById('dia-total-val').textContent    = fmt(totalHoy);
+  document.getElementById('dia-pedidos-val').textContent  = pedidos.length;
+  document.getElementById('dia-comision-val').textContent = fmt(comisionHoy);
+  document.getElementById('dia-visitas-val').textContent  = visitas.length;
+  document.getElementById('dia-clientes-val').textContent = clientesHoy;
+
+  // Lista detallada
+  const listaEl = document.getElementById('dia-lista');
+  if(!hoy.length){
+    listaEl.innerHTML = '<div class="pend-empty">Sin actividad registrada hoy.<br>Los pedidos guardados aparecerán aquí.</div>';
+    return;
+  }
+
+  let html = '';
+
+  // Pedidos con venta
+  pedidos.forEach(p => {
+    const items3 = (p.items||[]).slice(0,3).map(i=>i.nombre.split(' ').slice(0,2).join(' ')).join(', ');
+    const mas    = (p.items||[]).length > 3 ? ` +${p.items.length-3} más` : '';
+    html += `<div class="historial-item">
+      <div class="hist-top">
+        <div>
+          <div class="hist-cliente">${(p.cliente||{}).nombre||'—'}</div>
+          <div class="hist-fecha">${p.timestamp} · ${SEG_LABELS[p.segmento]||''}</div>
+          ${p.numPedido?`<span class="num-pedido-badge">${p.numPedido}</span>`:''}
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+          <span class="hist-status ${p.enviado?'status-entregado':'status-pendiente'}">${p.enviado?'Enviado ✓':'Pendiente'}</span>
+          <span style="font-size:9px;color:rgba(245,239,224,.35);"><span class="sync-dot ${p.sincronizado?'dot-synced':'dot-pending'}"></span>${p.sincronizado?'En Sheets':'Sin sync'}</span>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+        <span class="hist-items">${items3}${mas}</span>
+        <span class="hist-total">${fmt(p.total||0)}</span>
+      </div>
+      <div style="margin-top:8px;display:flex;gap:6px;">
+        <button class="btn-enviar-pend" style="flex:1;font-size:10px;padding:7px;" onclick="enviarPendiente(${p.id})">📱 Enviar WA</button>
+        ${!p.enviado?`<button class="btn-ok-pend" style="padding:7px 14px;" onclick="marcarEnviado(${p.id});renderResumenDia()">✓</button>`:''}
+      </div>
+    </div>`;
+  });
+
+  // Visitas sin venta
+  if(visitas.length){
+    html += '<p class="pend-section-title" style="margin-top:14px;">📍 Visitas sin venta</p>';
+    visitas.forEach(p => {
+      html += `<div class="historial-item" style="border-left:3px solid #F87171;border-color:rgba(248,113,113,.25);">
+        <div class="hist-top">
+          <div>
+            <div class="hist-cliente">${(p.cliente||{}).nombre||'—'}</div>
+            <div class="hist-fecha">${p.timestamp}</div>
+            ${p.numPedido?`<span class="num-pedido-badge" style="color:#F87171;">${p.numPedido}</span>`:''}
+          </div>
+          <span class="hist-status" style="background:rgba(248,113,113,.2);color:#F87171;">Sin venta</span>
+        </div>
+        <div style="margin-top:6px;font-size:11px;color:var(--crema2);">📝 ${p.motivo||'Sin motivo especificado'}</div>
+        <div style="margin-top:4px;font-size:10px;color:rgba(245,239,224,.35);">📍 ${p.gps||'—'}</div>
+      </div>`;
+    });
+  }
+
+  // Totales al pie
+  if(totalHoy > 0){
+    html += `<div class="pedido-total-box" style="margin:12px 0;">
+      <div class="total-row"><span class="total-label">Subtotal pedidos (${pedidos.length})</span><span class="total-val">${fmt(totalHoy)}</span></div>
+      <hr class="total-divider">
+      <div class="total-row"><span class="total-label" style="font-weight:700;color:var(--crema);">TOTAL DEL DÍA</span><span class="total-grande">${fmt(totalHoy)}</span></div>
+      <div class="total-row" style="margin-top:8px;"><span class="total-label">Comisión estimada ${((v?v.comision:0.03)*100).toFixed(0)}%</span><span class="total-val" style="color:#6ECFA0;">${fmt(comisionHoy)}</span></div>
+    </div>`;
+  }
+
+  listaEl.innerHTML = html;
+}
+
 // ═══ NAVEGACIÓN ═══
 function goTo(id) {
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
@@ -977,6 +1200,13 @@ function goTo(id) {
   if(id==='s-resumen')   generarResumen();
   if(id==='s-historial') renderPendientes();
   if(id==='s-dashboard') renderDashboard();
+  if(id==='s-dia')       renderResumenDia();
+  // Al volver a pedido desde resumen, mantener estado pero mostrar sección correcta
+  if(id==='s-pedido' && clienteConfirmado) {
+    document.getElementById('seccion-productos').style.display = 'flex';
+    document.getElementById('resumen-bar-btn').style.display = 'flex';
+    document.getElementById('btn-continuar-pedido').style.display = 'none';
+  }
 }
 
 // ═══ SEGMENTO ═══
@@ -993,13 +1223,112 @@ function selectCliente(el, nombre, sub, seg) {
   document.querySelectorAll('.cliente-item').forEach(i=>i.classList.remove('selected'));
   el.classList.add('selected');
   clienteActual = {nombre, sub, segmento:seg};
-  const btn = document.querySelector('.seg-btn[data-seg="'+seg+'"]');
-  setSegmento(btn, seg);
+  // Mostrar tag de cliente seleccionado
+  const tag = document.getElementById('cliente-tag');
+  const tagNom = document.getElementById('cliente-tag-nombre');
+  if(tag){ tag.style.display='flex'; if(tagNom) tagNom.textContent=nombre; }
+  // Activar botón de acción
+  actualizarBotonesVisita();
 }
 function filtrarClientes(q) {
   document.querySelectorAll('.cliente-item').forEach(item=>{
     item.style.display = item.textContent.toLowerCase().includes(q.toLowerCase()) ? 'flex' : 'none';
   });
+}
+
+// ═══ RESULTADO DE VISITA ═══
+function setResultadoVisita(tipo) {
+  resultadoVisita = tipo;
+  document.getElementById('btn-res-pedido').classList.toggle('active', tipo==='pedido');
+  document.getElementById('btn-res-noc').classList.toggle('active', tipo==='noc');
+  document.getElementById('visita-noc-box').style.display = tipo==='noc' ? 'block' : 'none';
+  // Si ya estamos en modo catálogo y cambia a noc, volver a selección
+  const secProd = document.getElementById('seccion-productos');
+  if(secProd && secProd.style.display !== 'none' && tipo === 'noc') {
+    secProd.style.display = 'none';
+    clienteConfirmado = false;
+    document.getElementById('resumen-bar-btn').style.display = 'none';
+  }
+  actualizarBotonesVisita();
+}
+
+function actualizarBotonesVisita() {
+  const tieneCliente = clienteActual.nombre !== '';
+  const btnCont  = document.getElementById('btn-continuar-pedido');
+  const btnReg   = document.getElementById('btn-reg-visita');
+  if(resultadoVisita === 'pedido') {
+    if(btnCont) btnCont.style.display = tieneCliente ? 'flex' : 'none';
+    if(btnReg)  btnReg.style.display  = 'none';
+  } else {
+    if(btnCont) btnCont.style.display = 'none';
+    if(btnReg)  btnReg.style.display  = tieneCliente ? 'flex' : 'none';
+  }
+}
+
+function continuarAPedido() {
+  if(!clienteActual.nombre){ alert('Selecciona un cliente primero.'); return; }
+  clienteConfirmado = true;
+  // Activar segmento según cliente
+  const btn = document.querySelector('.seg-btn[data-seg="'+clienteActual.segmento+'"]');
+  if(btn) setSegmento(btn, clienteActual.segmento);
+  // Mostrar catálogo
+  const sec = document.getElementById('seccion-productos');
+  if(sec) sec.style.display = 'flex';
+  document.getElementById('btn-continuar-pedido').style.display = 'none';
+  document.getElementById('resumen-bar-btn').style.display = 'flex';
+  // Scroll al top del catálogo
+  sec.scrollTop = 0;
+}
+
+function registrarVisitaSinVenta() {
+  if(!clienteActual.nombre){ alert('Selecciona un cliente primero.'); return; }
+  const motivo = (document.getElementById('visita-motivo').value||'').trim();
+  const now = new Date().toLocaleString('es-GT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  const visita = {
+    id: Date.now(),
+    tipo: 'visita_sin_venta',
+    numPedido: generarNumPedido().replace('MFS','VIS'),
+    vendedor: vendedorActual ? vendedorActual.nombre : 'Carlos Mendoza López',
+    cliente: clienteActual,
+    motivo: motivo || 'Sin especificar',
+    gps: gpsCoords,
+    timestamp: now,
+    total: 0,
+    subtotal: 0, iva: 0,
+    items: [],
+    enviado: false,
+    sincronizado: false
+  };
+  const lista = cargarPendientes();
+  lista.push(visita);
+  guardarEnStorage(lista);
+  actualizarBadgeNav();
+  // Limpiar y volver al inicio
+  document.getElementById('visita-motivo').value = '';
+  resetPedidoUI();
+  alert('✅ Visita registrada para '+clienteActual.nombre+'\nSe guardó con GPS y hora.');
+}
+
+function resetPedidoUI() {
+  // Limpiar selección de cliente
+  document.querySelectorAll('.cliente-item').forEach(i=>i.classList.remove('selected'));
+  clienteActual = {nombre:'', sub:'', segmento:'horeca'};
+  clienteConfirmado = false;
+  // Ocultar secciones
+  const tag = document.getElementById('cliente-tag');
+  if(tag) tag.style.display = 'none';
+  const sec = document.getElementById('seccion-productos');
+  if(sec) sec.style.display = 'none';
+  document.getElementById('btn-continuar-pedido').style.display = 'none';
+  document.getElementById('btn-reg-visita').style.display = 'none';
+  document.getElementById('resumen-bar-btn').style.display = 'none';
+  // Reset resultado de visita
+  setResultadoVisita('pedido');
+  // Limpiar carrito
+  carrito = {};
+  renderAcordeon();
+  actualizarResumenBar();
+  if(document.getElementById('nota-pedido')) document.getElementById('nota-pedido').value = '';
 }
 
 // ═══ ACORDEÓN ═══
@@ -1216,6 +1545,21 @@ function enviarWhatsApp() {
 }
 
 // ═══ SINCRONIZACIÓN GOOGLE SHEETS ═══
+async function probarConexion() {
+  const statusEl = document.getElementById('sync-status');
+  if(!WEBAPP_URL){ statusEl.textContent='⚠️ URL no configurada.'; statusEl.className='sync-status sync-err'; return; }
+  statusEl.textContent='🔄 Probando conexión...'; statusEl.className='sync-status sync-ok';
+  try {
+    const res = await fetch(WEBAPP_URL, {method:'GET', mode:'cors'});
+    const txt = await res.text();
+    statusEl.textContent = '✅ Conexión OK: '+txt.slice(0,60);
+    statusEl.className='sync-status sync-ok';
+  } catch(e) {
+    statusEl.textContent='⚠️ Sin respuesta — Asegura que el script esté publicado como: Ejecutar como "Yo" · Acceso "Cualquier persona". Error: '+e.message;
+    statusEl.className='sync-status sync-err';
+  }
+  setTimeout(()=>{ statusEl.className='sync-status'; }, 10000);
+}
 async function sincronizarPedidos() {
   const statusEl = document.getElementById('sync-status');
   const btnEl    = document.getElementById('btn-sync');
@@ -1277,15 +1621,15 @@ async function sincronizarPedidos() {
   btnEl.textContent = '☁️ Sincronizar con Google Sheets';
 
   if (err === 0) {
-    statusEl.textContent = '✅ ' + ok + ' pedido(s) enviados a Google Sheets correctamente.';
+    statusEl.textContent = '✅ ' + ok + ' pedido(s) enviados. Si no aparecen en Sheets, usa "Probar conexión" para verificar permisos del script.';
     statusEl.className = 'sync-status sync-ok';
   } else {
-    statusEl.textContent = '⚠️ ' + ok + ' enviados · ' + err + ' con error. Intenta de nuevo.';
+    statusEl.textContent = '⚠️ ' + ok + ' enviados · ' + err + ' con error de red. Verifica conexión e intenta de nuevo.';
     statusEl.className = 'sync-status sync-err';
   }
 
-  // Ocultar mensaje después de 6 segundos
-  setTimeout(() => { statusEl.className = 'sync-status'; }, 6000);
+  // Ocultar mensaje después de 8 segundos
+  setTimeout(() => { statusEl.className = 'sync-status'; }, 8000);
 }
 
 // ═══ BANDEJA DE PENDIENTES ═══
@@ -1373,10 +1717,7 @@ function renderPendientes() {
 
 // ═══ LIMPIAR ═══
 function limpiarPedido() {
-  carrito={};
-  document.getElementById('nota-pedido').value='';
-  renderAcordeon();
-  actualizarResumenBar();
+  resetPedidoUI();
   goTo('s-pedido');
 }
 
