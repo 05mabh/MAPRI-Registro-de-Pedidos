@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAPRI App — Instrucciones de Configuración</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:Arial,sans-serif;background:#F8F5F0;color:#1A1A1A;padding:40px 20px;max-width:860px;margin:0 auto;}
+h1{font-size:28px;font-weight:900;color:#E8601A;margin-bottom:4px;}
+.version{font-size:12px;color:#aaa;margin-bottom:36px;letter-spacing:2px;}
+h2{font-size:15px;font-weight:700;color:#1A1A1A;margin:28px 0 10px;display:flex;align-items:center;gap:10px;}
+.num{width:26px;height:26px;border-radius:50%;background:#E8601A;color:white;font-weight:900;font-size:12px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.num.verde{background:#2D6A4F;} .num.azul{background:#3B82F6;} .num.morado{background:#7C3AED;}
+p,li{font-size:13px;line-height:1.75;color:#333;}
+ul{padding-left:20px;margin-bottom:8px;}
+.box{background:white;border-radius:12px;padding:18px 22px;margin-bottom:10px;border:1px solid #E0D8CC;}
+.code{background:#111;color:#6ECFA0;border-radius:8px;padding:10px 14px;font-family:'Courier New',monospace;
+  font-size:11px;margin:8px 0;word-break:break-all;line-height:1.6;}
+.warn{background:#FFF8E1;border-left:3px solid #F0B429;border-radius:0 8px 8px 0;padding:10px 14px;font-size:12px;color:#7A5A00;margin:8px 0;}
+.ok{background:#E8F5E9;border-left:3px solid #2D6A4F;border-radius:0 8px 8px 0;padding:10px 14px;font-size:12px;color:#1A4A30;margin:8px 0;}
+.tag{display:inline-block;padding:2px 8px;border-radius:5px;font-size:10px;font-weight:700;letter-spacing:1px;}
+.t-o{background:#E8601A;color:white;} .t-g{background:#2D6A4F;color:white;} .t-b{background:#3B82F6;color:white;}
+.divider{border:none;border-top:2px solid #E8E0D0;margin:30px 0;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{background:#1A1A1A;color:#F5EFE0;padding:8px 12px;text-align:left;font-size:11px;}
+td{padding:8px 12px;border-bottom:1px solid #eee;}
+tr:nth-child(even) td{background:#f9f6f0;}
+.footer{text-align:center;font-size:11px;color:#bbb;margin-top:40px;padding-top:20px;border-top:1px solid #eee;}
+.section-intro{background:#1A1A1A;color:#F5EFE0;border-radius:12px;padding:16px 20px;margin-bottom:20px;}
+.section-intro p{color:#C8BFA8;font-size:12px;}
+.section-intro h3{color:#E8601A;font-size:14px;font-weight:700;margin-bottom:6px;}
+</style>
+</head>
+<body>
+
+<h1>🥩 MAPRI Food Service</h1>
+<p class="version">APP VENDEDORES PRO v3.2 · INSTRUCCIONES DE CONFIGURACIÓN · MAYO 2026</p>
+
+<!-- CONTENIDO -->
+<div class="box">
+  <p><strong>Esta carpeta contiene 6 archivos:</strong></p>
+  <ul style="margin-top:8px;">
+    <li><strong>mapri_app_vendedores.html</strong> — La app principal</li>
+    <li><strong>manifest.json</strong> — Configuración PWA (ícono, nombre en celular)</li>
+    <li><strong>sw.js</strong> — Service Worker (modo offline)</li>
+    <li><strong>icon-192.png / icon-512.png / icon-180.png</strong> — Íconos de la app</li>
+    <li><strong>mapri_google_apps_script.gs</strong> — Script para Google Sheets</li>
+    <li><strong>INSTRUCCIONES_SETUP.html</strong> — Este archivo</li>
+  </ul>
+</div>
+
+<hr class="divider">
+
+<!-- PARTE 1: GOOGLE SHEETS -->
+<div class="section-intro">
+  <h3>PARTE 1 — Conectar con Google Sheets</h3>
+  <p>Los pedidos que el vendedor guarda en la app se sincronizan automáticamente a un Google Sheet cuando tiene internet.</p>
+</div>
+
+<h2><span class="num">1</span> Crear el Google Sheet</h2>
+<div class="box">
+  <p>1. Abre <strong>Google Drive</strong> → <strong>+ Nuevo</strong> → <strong>Google Sheets</strong></p>
+  <p>2. Nómbralo: <strong>MAPRI — Registro de Pedidos</strong></p>
+  <p>3. Déjalo en blanco — el script crea las columnas automáticamente</p>
+</div>
+
+<h2><span class="num">2</span> Pegar el script en Apps Script</h2>
+<div class="box">
+  <p>1. En el Sheet: menú <strong>Extensiones → Apps Script</strong></p>
+  <p>2. Selecciona todo (Ctrl+A) y borra el código que aparece</p>
+  <p>3. Abre <strong>mapri_google_apps_script.gs</strong> con el Bloc de Notas, copia todo y pega</p>
+  <p>4. Guarda con Ctrl+S</p>
+</div>
+
+<h2><span class="num">3</span> Publicar como Web App</h2>
+<div class="box">
+  <p>1. Botón <strong>Deploy → New deployment</strong></p>
+  <p>2. Configura exactamente así:</p>
+  <ul>
+    <li>Type: <span class="tag t-o">Web App</span></li>
+    <li>Execute as: <span class="tag t-b">Me</span></li>
+    <li>Who has access: <span class="tag t-g">Anyone</span></li>
+  </ul>
+  <p style="margin-top:10px;">3. Clic <strong>Deploy</strong> → autoriza permisos → copia la URL generada</p>
+  <div class="code">https://script.google.com/macros/s/AKfycb.../exec</div>
+  <div class="warn">⚠️ Guarda esa URL — la necesitas en el siguiente paso.</div>
+</div>
+
+<h2><span class="num">4</span> Pegar la URL en la app</h2>
+<div class="box">
+  <p>1. Abre <strong>mapri_app_vendedores.html</strong> con Bloc de Notas</p>
+  <p>2. Busca con Ctrl+F:</p>
+  <div class="code">let WEBAPP_URL = '';</div>
+  <p>3. Reemplaza por:</p>
+  <div class="code">let WEBAPP_URL = 'https://script.google.com/macros/s/AKfycb.../exec';</div>
+  <p>4. Guarda (Ctrl+S)</p>
+  <div class="ok">✓ La app ya está conectada a Google Sheets.</div>
+</div>
+
+<hr class="divider">
+
+<!-- PARTE 2: GITHUB PAGES -->
+<div class="section-intro">
+  <h3>PARTE 2 — Publicar como App instalable (GitHub Pages + PWA)</h3>
+  <p>Esto convierte la app en una dirección web permanente. El vendedor la abre una vez en su celular y la instala como app — sin Play Store, sin App Store, completamente gratis.</p>
+</div>
+
+<h2><span class="num verde">5</span> Crear cuenta en GitHub</h2>
+<div class="box">
+  <p>1. Ve a <strong>github.com</strong> y crea una cuenta gratuita (si ya tienes, salta este paso)</p>
+  <p>2. Confirma tu email</p>
+  <div class="warn">⚠️ El nombre de usuario que elijas aparecerá en la URL de la app. Elige algo como <em>mapri-gt</em> o el nombre del cliente.</div>
+</div>
+
+<h2><span class="num verde">6</span> Crear el repositorio</h2>
+<div class="box">
+  <p>1. En GitHub, clic en <strong>+ → New repository</strong></p>
+  <p>2. Nombre: <strong>mapri-app</strong></p>
+  <p>3. Marca <strong>Public</strong> (obligatorio para GitHub Pages gratis)</p>
+  <p>4. Clic <strong>Create repository</strong></p>
+</div>
+
+<h2><span class="num verde">7</span> Subir todos los archivos</h2>
+<div class="box">
+  <p>1. En el repositorio recién creado, clic en <strong>uploading an existing file</strong> (o "Add file → Upload files")</p>
+  <p>2. Arrastra <strong>todos</strong> estos archivos de la carpeta MAPRI_USB:</p>
+  <ul>
+    <li>mapri_app_vendedores.html</li>
+    <li>manifest.json</li>
+    <li>sw.js</li>
+    <li>icon-192.png</li>
+    <li>icon-512.png</li>
+    <li>icon-180.png</li>
+  </ul>
+  <p style="margin-top:8px;">3. Escribe un mensaje como: <em>"App inicial MAPRI v3.2"</em></p>
+  <p>4. Clic <strong>Commit changes</strong></p>
+</div>
+
+<h2><span class="num verde">8</span> Activar GitHub Pages</h2>
+<div class="box">
+  <p>1. En el repositorio: clic en <strong>Settings</strong> (engranaje arriba a la derecha)</p>
+  <p>2. En el menú izquierdo: clic en <strong>Pages</strong></p>
+  <p>3. En "Branch": selecciona <strong>main</strong> → carpeta <strong>/ (root)</strong></p>
+  <p>4. Clic <strong>Save</strong></p>
+  <p>5. Espera 1-2 minutos → aparecerá la URL:</p>
+  <div class="code">https://tu-usuario.github.io/mapri-app/mapri_app_vendedores.html</div>
+  <div class="ok">✓ ¡Esa es la URL que le das a los vendedores!</div>
+</div>
+
+<hr class="divider">
+
+<!-- PARTE 3: INSTALAR EN CELULAR -->
+<div class="section-intro">
+  <h3>PARTE 3 — Instalar en el celular del vendedor</h3>
+  <p>Una vez publicada la URL, el vendedor la instala en 30 segundos. Queda como ícono en la pantalla de inicio — igual que cualquier app.</p>
+</div>
+
+<h2><span class="num azul">9</span> Android (Chrome)</h2>
+<div class="box">
+  <p>1. El vendedor abre <strong>Chrome</strong> y entra a la URL de la app</p>
+  <p>2. Chrome muestra automáticamente un banner: <em>"Agregar MAPRI a pantalla de inicio"</em></p>
+  <p>3. Si no aparece: menú de Chrome (⋮) → <strong>Agregar a pantalla de inicio</strong></p>
+  <p>4. Confirmar → el ícono naranja de MAPRI aparece en la pantalla del celular</p>
+  <p>5. La próxima vez, el vendedor abre la app directo desde ese ícono — <strong>sin necesidad de internet</strong></p>
+</div>
+
+<h2><span class="num azul">10</span> iPhone / iPad (Safari)</h2>
+<div class="box">
+  <p>1. El vendedor abre <strong>Safari</strong> (no Chrome) y entra a la URL</p>
+  <p>2. Toca el botón de compartir <strong>⬆️</strong> (abajo al centro)</p>
+  <p>3. Desplaza y toca <strong>"Añadir a pantalla de inicio"</strong></p>
+  <p>4. Confirma → el ícono de MAPRI aparece en el inicio</p>
+</div>
+
+<hr class="divider">
+
+<!-- USUARIOS -->
+<h2>👤 Usuarios de prueba</h2>
+<div class="box">
+  <table>
+    <tr><th>Usuario</th><th>Contraseña</th><th>Nombre</th><th>Zona</th></tr>
+    <tr><td>carlos.m</td><td>1234</td><td>Carlos Mendoza</td><td>Zona 10 / 14</td></tr>
+    <tr><td>ana.l</td><td>5678</td><td>Ana López</td><td>Zona 6 / 1</td></tr>
+    <tr><td>roberto.p</td><td>9012</td><td>Roberto Pérez</td><td>Zona 7 / Mixco</td></tr>
+  </table>
+</div>
+
+<!-- FLUJO RESUMEN -->
+<h2>🔄 Flujo completo del vendedor</h2>
+<div class="box">
+  <table>
+    <tr><th>Acción</th><th>Requiere internet</th></tr>
+    <tr><td>Abrir la app (ya instalada)</td><td>❌ No</td></tr>
+    <tr><td>Iniciar sesión</td><td>❌ No</td></tr>
+    <tr><td>Seleccionar cliente y productos</td><td>❌ No</td></tr>
+    <tr><td>Guardar pedido en bandeja</td><td>❌ No</td></tr>
+    <tr><td>Ver dashboard de ventas</td><td>❌ No</td></tr>
+    <tr><td>Enviar por WhatsApp</td><td>⚠️ Solo para enviar</td></tr>
+    <tr><td>Sincronizar a Google Sheets</td><td>✅ Sí (cuando haya señal)</td></tr>
+  </table>
+</div>
+
+<div class="footer">MAPRI Food Service · App Vendedores Pro v3.2 · Mayo 2026</div>
+</body>
+</html>
