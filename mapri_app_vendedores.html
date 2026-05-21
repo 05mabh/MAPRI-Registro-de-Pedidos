@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
 <title>MAPRI — App Vendedores Pro</title>
 
-<!-- PWA -->
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#E8601A">
 <meta name="mobile-web-app-capable" content="yes">
@@ -215,7 +214,7 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
 .pedido-items::-webkit-scrollbar{display:none;}
 .item-row{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06);}
 .item-row:last-child{border:none;}
-.item-emoji{font-size:18px;flex-shrink:0;}
+.item-emoji覆{font-size:18px;flex-shrink:0;}
 .item-info{flex:1;}
 .item-nombre{font-size:13px;font-weight:600;color:var(--crema);}
 .item-qty{font-size:11px;color:var(--crema2);}
@@ -406,7 +405,6 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
     <div style="display:flex;gap:5px;align-items:center;"><span>●●●</span></div>
   </div>
 
-  <!-- LOGIN -->
   <div class="screen active" id="s-login">
     <div class="login-logo">
       <svg width="120" height="64" viewBox="0 0 120 64" aria-label="MAPRI">
@@ -439,7 +437,6 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
     <p class="login-version">MAPRI App v3.2 · Catálogo Marzo 2026</p>
   </div>
 
-  <!-- NUEVO PEDIDO -->
   <div class="screen" id="s-pedido">
     <div class="app-header">
       <div class="header-top">
@@ -467,14 +464,12 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
       <span id="gps-time"></span>
     </div>
 
-    <!-- RESULTADO DE VISITA -->
     <p style="font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(200,191,168,.5);padding:8px 20px 2px;flex-shrink:0;">Resultado de visita</p>
     <div class="resultado-bar">
       <button class="btn-resultado res-pedido active" id="btn-res-pedido" onclick="setResultadoVisita('pedido')">📦 Hacer pedido</button>
       <button class="btn-resultado res-noc" id="btn-res-noc" onclick="setResultadoVisita('noc')">🚫 No compró</button>
     </div>
 
-    <!-- CHIP cliente confirmado (visible solo cuando ya eligió y entró al catálogo) -->
     <div id="cliente-chip" style="display:none;flex-shrink:0;margin:0 16px 8px;
       background:rgba(232,96,26,.12);border:1px solid rgba(232,96,26,.35);border-radius:12px;
       padding:9px 14px;display:none;align-items:center;gap:10px;">
@@ -488,11 +483,9 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
         letter-spacing:1px;color:var(--crema2);cursor:pointer;">CAMBIAR</button>
     </div>
 
-    <!-- PANEL SELECCIÓN CLIENTE (visible al inicio, se colapsa al confirmar) -->
     <div id="panel-cliente" style="display:flex;flex-direction:column;flex:1;overflow:hidden;min-height:0;">
       <div class="scroll-area">
 
-        <!-- CLIENTE -->
         <p class="section-label">Seleccionar cliente <button onclick="abrirNuevoCliente()">+ Nuevo</button></p>
         <div class="cliente-card">
           <input class="cliente-search" type="text" placeholder="🔍  Buscar por nombre o código..." id="cliente-search" oninput="filtrarClientes(this.value)">
@@ -525,7 +518,6 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
           </div>
         </div>
 
-        <!-- MOTIVO NO COMPRA (oculto por defecto) -->
         <div class="visita-noc-box" id="visita-noc-box">
           <p class="section-label" style="margin-top:0;">Motivo de no compra</p>
           <textarea class="nota-input" id="visita-motivo" rows="3"
@@ -535,16 +527,11 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
         <div style="height:4px;"></div>
       </div>
 
-      <!-- TAG cliente seleccionado -->
       <div class="cliente-seleccionado-tag" id="cliente-tag">✓ <span id="cliente-tag-nombre">—</span></div>
 
-      <!-- BOTÓN ACCIÓN según resultado -->
       <button class="btn-continuar" id="btn-continuar-pedido" style="display:none;" onclick="continuarAPedido()">Continuar al catálogo →</button>
       <button class="btn-registrar-visita" id="btn-reg-visita" style="display:none;" onclick="registrarVisitaSinVenta()">📍 Registrar visita sin venta</button>
-    </div><!-- /panel-cliente -->
-
-    <!-- SECCIÓN PRODUCTOS (oculta hasta confirmar) -->
-    <div id="seccion-productos" style="display:none;flex-direction:column;flex:1;overflow:hidden;min-height:0;">
+    </div><div id="seccion-productos" style="display:none;flex-direction:column;flex:1;overflow:hidden;min-height:0;">
       <div class="segmento-bar" style="flex-shrink:0;">
         <button class="seg-btn seg-hogar" data-seg="hogar" onclick="setSegmento(this,'hogar')"><span>🏠</span>Hogar</button>
         <button class="seg-btn seg-mercado" data-seg="mercado" onclick="setSegmento(this,'mercado')"><span>🏪</span>Mercado</button>
@@ -552,7 +539,6 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
         <button class="seg-btn seg-institucional" data-seg="institucional" onclick="setSegmento(this,'institucional')"><span>🏢</span>Institucional</button>
       </div>
       <div class="scroll-area" style="flex:1;">
-      <!-- BUSCADOR / CÓDIGO RÁPIDO -->
       <p class="section-label">Productos</p>
       <div class="codigo-wrap">
         <div class="codigo-bar">
@@ -565,13 +551,9 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
         <div class="codigo-dropdown" id="codigo-dropdown"></div>
       </div>
 
-      <!-- ACORDEÓN -->
       <div id="acordeon-productos"></div>
       <div style="height:16px;"></div>
-      </div><!-- /scroll-area productos -->
-    </div><!-- /seccion-productos -->
-
-    <div class="resumen-bar" id="resumen-bar-btn" style="display:none;" onclick="goTo('s-resumen')">
+      </div></div><div class="resumen-bar" id="resumen-bar-btn" style="display:none;" onclick="goTo('s-resumen')">
       <div class="resumen-left">
         <div class="resumen-count" id="resumen-count">0</div>
         <span class="resumen-text">Ver resumen del pedido</span>
@@ -587,7 +569,6 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
     </div>
   </div>
 
-  <!-- RESUMEN -->
   <div class="screen" id="s-resumen">
     <div class="pedido-header">
       <button class="back-btn" onclick="goTo('s-pedido')">‹</button>
@@ -621,7 +602,6 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
     <div style="height:8px;"></div>
   </div>
 
-  <!-- HISTORIAL -->
   <div class="screen" id="s-historial">
     <div class="app-header">
       <div class="header-top">
@@ -632,7 +612,6 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
         <div class="user-avatar">CM</div>
       </div>
     </div>
-    <!-- BARRA SYNC FIJA — siempre visible -->
     <div style="padding:10px 16px 4px;flex-shrink:0;background:var(--negro);border-bottom:1px solid rgba(255,255,255,.06);">
       <button class="btn-sync" id="btn-sync" onclick="sincronizarPedidos()" style="margin-bottom:6px;">☁️ Sincronizar con Google Sheets</button>
       <div style="display:flex;gap:8px;">
@@ -670,7 +649,6 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
     </div>
   </div>
 
-  <!-- CLIENTES -->
   <div class="screen" id="s-clientes">
     <div class="app-header">
       <div class="header-top">
@@ -715,7 +693,6 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
     </div>
   </div>
 
-  <!-- DASHBOARD -->
   <div class="screen" id="s-dashboard">
     <div class="app-header">
       <div class="header-top">
@@ -729,7 +706,6 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
     <div class="scroll-area" style="padding-top:14px;">
       <p class="dash-periodo" id="dash-periodo">Mayo 2026 · Todos los pedidos guardados</p>
 
-      <!-- KPIs -->
       <div class="dash-kpi-grid" id="dash-kpis">
         <div class="dash-kpi full"><div class="dash-kpi-val" id="dk-total">Q 0.00</div><div class="dash-kpi-label">Ventas Totales</div></div>
         <div class="dash-kpi"><div class="dash-kpi-val" id="dk-pedidos">0</div><div class="dash-kpi-label">Pedidos</div></div>
@@ -738,25 +714,21 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
         <div class="dash-kpi amarillo"><div class="dash-kpi-val" id="dk-clientes">0</div><div class="dash-kpi-label">Clientes Atendidos</div></div>
       </div>
 
-      <!-- Top productos -->
       <div class="dash-card">
         <div class="dash-card-title">🏆 Top Productos Más Pedidos</div>
         <div id="dash-top-prods"><div style="font-size:12px;color:rgba(245,239,224,.25);text-align:center;padding:10px;">Sin datos aún</div></div>
       </div>
 
-      <!-- Pedidos por segmento -->
       <div class="dash-card">
         <div class="dash-card-title">🏷️ Ventas por Segmento</div>
         <div id="dash-por-seg"><div style="font-size:12px;color:rgba(245,239,224,.25);text-align:center;padding:10px;">Sin datos aún</div></div>
       </div>
 
-      <!-- Resumen del día -->
       <div class="dash-card">
         <div class="dash-card-title">📅 Resumen del día — <span id="dash-fecha-hoy"></span></div>
         <div id="dash-resumen-dia"><div style="font-size:12px;color:rgba(245,239,224,.25);text-align:center;padding:10px;">Sin actividad hoy</div></div>
       </div>
 
-      <!-- Vendedor activo -->
       <div class="dash-card" id="dash-vend-card">
         <div class="dash-card-title">👤 Vendedor Activo</div>
         <div id="dash-vend-info"><div style="font-size:12px;color:rgba(245,239,224,.25);">—</div></div>
@@ -772,7 +744,6 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
     </div>
   </div>
 
-  <!-- RESUMEN DEL DÍA -->
   <div class="screen" id="s-dia">
     <div class="app-header">
       <div class="header-top">
@@ -804,13 +775,10 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
     </div>
   </div>
 
-</div><!-- /phone -->
-
-<!-- MODAL NUEVO CLIENTE -->
-<div class="modal-overlay" id="modal-overlay" onclick="cerrarNuevoCliente()"></div>
+</div><div class="modal-overlay" id="modal-overlay" onclick="cerrarNuevoCliente()"></div>
 <div class="modal-nc" id="modal-nc">
   <div class="modal-nc-header">
-    <span class="modal-nc-title">Nuevo Cliente</span>
+    <span class="modal-nc-title">Nuevo Clientee</span>
     <button class="modal-nc-close" onclick="cerrarNuevoCliente()">✕</button>
   </div>
   <div class="modal-nc-body">
@@ -846,11 +814,12 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
 <script>
 // ═══════════════════════════════════════════════
 // VENDEDORES — MAPRI FOOD SERVICE
+// Contraseñas corregidas para evitar bloqueos de Google Chrome
 // ═══════════════════════════════════════════════
 const VENDEDORES = [
-  {id:'V001', nombre:'Carlos Mendoza López',  usuario:'carlos.m',  pass:'1234', zona:'Zona 10 / Zona 14', comision:0.03, avatar:'CM'},
-  {id:'V002', nombre:'Ana López García',       usuario:'ana.l',     pass:'5678', zona:'Zona 6 / Zona 1',   comision:0.03, avatar:'AL'},
-  {id:'V003', nombre:'Roberto Pérez Díaz',     usuario:'roberto.p', pass:'9012', zona:'Zona 7 / Mixco',    comision:0.03, avatar:'RP'},
+  {id:'V001', nombre:'Carlos Mendoza López',  usuario:'carlos.m',  pass:'MpFs*2026x', zona:'Zona 10 / Zona 14', comision:0.03, avatar:'CM'},
+  {id:'V002', nombre:'Ana López García',       usuario:'ana.l',     pass:'AnLf#9841m', zona:'Zona 6 / Zona 1',   comision:0.03, avatar:'AL'},
+  {id:'V003', nombre:'Roberto Pérez Díaz',     usuario:'roberto.p', pass:'RbPz@7532k', zona:'Zona 7 / Mixco',    comision:0.03, avatar:'RP'},
 ];
 
 // ═══════════════════════════════════════════════
@@ -947,7 +916,7 @@ const PRODUCTOS = [
 
 // ═══ SECCIONES DEL ACORDEÓN ═══
 const SECCIONES = [
-  {cat:'res',      emoji:'🥩', label:'Carne de Res'},
+  {cat:'res',     emoji:'🥩', label:'Carne de Res'},
   {cat:'cerdo',    emoji:'🐖', label:'Carne de Cerdo'},
   {cat:'pollo',    emoji:'🍗', label:'Pollo'},
   {cat:'pescado',  emoji:'🐟', label:'Pescado'},
@@ -1036,45 +1005,32 @@ const GPS_OPTS_ALTA  = {enableHighAccuracy:true,  timeout:15000, maximumAge:0};
 const GPS_OPTS_WATCH = {enableHighAccuracy:true,  timeout:20000, maximumAge:0};
 
 // Ejecutar GPS al cargar:
-// 1) getCurrentPosition — captura rápida e inmediata al abrir la app
-// 2) watchPosition      — monitoreo continuo mientras trabaja
 if('geolocation' in navigator) {
   navigator.geolocation.getCurrentPosition(gpsExito, gpsError, GPS_OPTS_ALTA);
   navigator.geolocation.watchPosition(gpsExito, gpsError, GPS_OPTS_WATCH);
 }
 
 // ── SYNC AUTOMÁTICO al recuperar señal ──
-// Cuando el celular vuelve a tener internet, sincroniza los pedidos pendientes sin que el vendedor tenga que presionar nada
 window.addEventListener('online', () => {
   console.log('🌐 Señal recuperada — sincronizando pedidos pendientes...');
   sincronizarPedidos();
 });
 
-// ══════════════════════════════════════════════
-// FIX 3 — PROTECCIÓN CONTRA SALIDA ACCIDENTAL
 // Intercepta el botón Atrás en Android (PWA)
-// ══════════════════════════════════════════════
 (function() {
-  // Empujar un estado inicial para tener algo que interceptar
   history.pushState({mapri: true}, '', location.href);
 
   window.addEventListener('popstate', function(e) {
-    // Si el usuario presiona Atrás, volvemos a empujar el estado
-    // para quedarnos en la app, y preguntamos si quiere salir
     history.pushState({mapri: true}, '', location.href);
-    // Solo preguntar si hay una sesión activa (no en el login)
     const loginActivo = document.getElementById('s-login') &&
                         document.getElementById('s-login').classList.contains('active');
-    if(loginActivo) return; // En login, no hay problema salir
-    // Mostrar confirmación
+    if(loginActivo) return; 
     const salir = confirm('¿Salir de MAPRI?\n\nTus pedidos guardados en bandeja están seguros.');
     if(salir) {
-      // Quitar el estado que pusimos y dejar salir
       history.go(-2);
     }
   });
 
-  // También proteger cierre de pestaña/navegador en desktop
   window.addEventListener('beforeunload', function(e) {
     const loginActivo = document.getElementById('s-login') &&
                         document.getElementById('s-login').classList.contains('active');
@@ -1094,7 +1050,6 @@ function loginVendedor() {
   if(!v){ err.style.display='block'; return; }
   err.style.display='none';
   vendedorActual = v;
-  // actualizar todos los headers con nombre y zona
   const sub = v.nombre.split(' ').slice(0,2).join(' ') + ' · ' + v.zona.split('/')[0].trim();
   document.querySelectorAll('.header-logo-sub').forEach(el => el.textContent = sub);
   document.querySelectorAll('.user-avatar').forEach(el => el.textContent = v.avatar);
@@ -1143,12 +1098,10 @@ function renderDashboard() {
   document.getElementById('dk-comision').textContent = fmt(comision);
   document.getElementById('dk-clientes').textContent = clientesSet.size;
 
-  // Periodo
   const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
   document.getElementById('dash-periodo').textContent =
     meses[mesActual]+' '+anioActual+' · '+totalPedidos+' registro'+(totalPedidos!==1?'s':'')+' en bandeja';
 
-  // ── Resumen del día ──
   const hoyStr = new Date().toLocaleDateString('es-GT',{day:'2-digit',month:'2-digit',year:'numeric'});
   document.getElementById('dash-fecha-hoy').textContent = hoyStr;
   const hoy = lista.filter(p => p.timestamp && p.timestamp.startsWith(hoyStr));
@@ -1179,7 +1132,6 @@ function renderDashboard() {
     diaEl.innerHTML = resumenRows + (detalleRows||'') + (visitaRows||'');
   }
 
-  // Top 5 productos
   const topProds = Object.values(conteoProds).sort((a,b)=>b.qty-a.qty).slice(0,5);
   const tpEl = document.getElementById('dash-top-prods');
   if(!topProds.length){ tpEl.innerHTML='<div style="font-size:12px;color:rgba(245,239,224,.25);text-align:center;padding:10px;">Sin datos aún — toma tu primer pedido</div>'; }
@@ -1189,7 +1141,6 @@ function renderDashboard() {
     <span class="dash-rank-val">${p.qty} unid.</span>
   </div>`).join(''); }
 
-  // Por segmento
   const SEG_EMO = {hogar:'🏠',mercado:'🏪',horeca:'🍽️',institucional:'🏢'};
   const segRows = Object.entries(conteoSegs).sort((a,b)=>b[1]-a[1]);
   const segEl = document.getElementById('dash-por-seg');
@@ -1200,7 +1151,6 @@ function renderDashboard() {
     <span class="dash-rank-val">${fmt(val)}</span>
   </div>`).join(''); }
 
-  // Vendedor activo
   const v = vendedorActual;
   const vEl = document.getElementById('dash-vend-info');
   if(v){ vEl.innerHTML=`<div class="dash-vend-row">
@@ -1226,26 +1176,22 @@ function renderResumenDia() {
   const mesesN = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
   const now = new Date();
 
-  // Header vendedor
   const v = vendedorActual;
   if(v){
     document.getElementById('dia-header-sub').textContent = v.nombre.split(' ').slice(0,2).join(' ');
     document.getElementById('dia-avatar').textContent     = v.avatar;
   }
 
-  // Título
   document.getElementById('dia-titulo').textContent =
     diasN[now.getDay()]+' '+now.getDate()+' '+mesesN[now.getMonth()]+' '+now.getFullYear()+
     ' · '+hoy.length+' registro'+(hoy.length!==1?'s':'');
 
-  // KPIs
   document.getElementById('dia-total-val').textContent    = fmt(totalHoy);
   document.getElementById('dia-pedidos-val').textContent  = pedidos.length;
   document.getElementById('dia-comision-val').textContent = fmt(comisionHoy);
   document.getElementById('dia-visitas-val').textContent  = visitas.length;
   document.getElementById('dia-clientes-val').textContent = clientesHoy;
 
-  // Lista detallada
   const listaEl = document.getElementById('dia-lista');
   if(!hoy.length){
     listaEl.innerHTML = '<div class="pend-empty">Sin actividad registrada hoy.<br>Los pedidos guardados aparecerán aquí.</div>';
@@ -1254,7 +1200,6 @@ function renderResumenDia() {
 
   let html = '';
 
-  // Pedidos con venta
   pedidos.forEach(p => {
     const items3 = (p.items||[]).slice(0,3).map(i=>i.nombre.split(' ').slice(0,2).join(' ')).join(', ');
     const mas    = (p.items||[]).length > 3 ? ` +${p.items.length-3} más` : '';
@@ -1281,7 +1226,6 @@ function renderResumenDia() {
     </div>`;
   });
 
-  // Visitas sin venta
   if(visitas.length){
     html += '<p class="pend-section-title" style="margin-top:14px;">📍 Visitas sin venta</p>';
     visitas.forEach(p => {
@@ -1300,7 +1244,6 @@ function renderResumenDia() {
     });
   }
 
-  // Totales al pie
   if(totalHoy > 0){
     html += `<div class="pedido-total-box" style="margin:12px 0;">
       <div class="total-row"><span class="total-label">Subtotal pedidos (${pedidos.length})</span><span class="total-val">${fmt(totalHoy)}</span></div>
@@ -1320,8 +1263,7 @@ function goTo(id) {
   if(id==='s-resumen')   generarResumen();
   if(id==='s-historial') renderPendientes();
   if(id==='s-dashboard') renderDashboard();
-  if(id==='s-dia')       renderResumenDia();
-  // Al volver a pedido desde resumen, mantener estado pero mostrar sección correcta
+  if(id==='s-dia')        renderResumenDia();
   if(id==='s-pedido' && clienteConfirmado) {
     const chip = document.getElementById('cliente-chip');
     if(chip) chip.style.display = 'flex';
@@ -1347,11 +1289,9 @@ function selectCliente(el, nombre, sub, seg) {
   document.querySelectorAll('.cliente-item').forEach(i=>i.classList.remove('selected'));
   el.classList.add('selected');
   clienteActual = {nombre, sub, segmento:seg};
-  // Mostrar tag de cliente seleccionado
   const tag = document.getElementById('cliente-tag');
   const tagNom = document.getElementById('cliente-tag-nombre');
   if(tag){ tag.style.display='flex'; if(tagNom) tagNom.textContent=nombre; }
-  // Activar botón de acción
   actualizarBotonesVisita();
 }
 function filtrarClientes(q) {
@@ -1366,7 +1306,6 @@ function setResultadoVisita(tipo) {
   document.getElementById('btn-res-pedido').classList.toggle('active', tipo==='pedido');
   document.getElementById('btn-res-noc').classList.toggle('active', tipo==='noc');
   document.getElementById('visita-noc-box').style.display = tipo==='noc' ? 'block' : 'none';
-  // Si ya estamos en modo catálogo y cambia a noc, volver a selección
   const secProd = document.getElementById('seccion-productos');
   if(secProd && secProd.style.display !== 'none' && tipo === 'noc') {
     secProd.style.display = 'none';
@@ -1392,11 +1331,9 @@ function actualizarBotonesVisita() {
 function continuarAPedido() {
   if(!clienteActual.nombre){ alert('Selecciona un cliente primero.'); return; }
   clienteConfirmado = true;
-  // Activar segmento según cliente
   const btn = document.querySelector('.seg-btn[data-seg="'+clienteActual.segmento+'"]');
   if(btn) setSegmento(btn, clienteActual.segmento);
 
-  // ── OCULTAR elementos innecesarios en modo catálogo ──
   const gpsBar = document.querySelector('.gps-bar');
   const resBar = document.querySelector('.resultado-bar');
   const resLbl = document.querySelector('#s-pedido > p');
@@ -1404,7 +1341,6 @@ function continuarAPedido() {
   if(resBar) resBar.style.display = 'none';
   if(resLbl) resLbl.style.display = 'none';
 
-  // ── COLAPSAR panel cliente → mostrar chip compacto ──
   const panel = document.getElementById('panel-cliente');
   if(panel) panel.style.display = 'none';
   const chip = document.getElementById('cliente-chip');
@@ -1414,7 +1350,6 @@ function continuarAPedido() {
   if(chipNom) chipNom.textContent = clienteActual.nombre;
   if(chipSeg) chipSeg.textContent = SEG_LABELS[clienteActual.segmento] || clienteActual.segmento;
 
-  // Mostrar catálogo y ocultar tabs de segmento (ya fijo por cliente)
   const sec = document.getElementById('seccion-productos');
   if(sec) sec.style.display = 'flex';
   const segBar = sec ? sec.querySelector('.segmento-bar') : null;
@@ -1424,7 +1359,6 @@ function continuarAPedido() {
 }
 
 function cambiarCliente() {
-  // Restaurar todos los elementos ocultos
   const gpsBar = document.querySelector('.gps-bar');
   const resBar = document.querySelector('.resultado-bar');
   const resLbl = document.querySelector('#s-pedido > p');
@@ -1435,7 +1369,6 @@ function cambiarCliente() {
   const segBar = sec ? sec.querySelector('.segmento-bar') : null;
   if(segBar) segBar.style.display = '';
 
-  // Volver al panel de selección de cliente
   clienteConfirmado = false;
   const chip = document.getElementById('cliente-chip');
   if(chip) chip.style.display = 'none';
@@ -1443,7 +1376,6 @@ function cambiarCliente() {
   if(panel) panel.style.display = 'flex';
   if(sec) sec.style.display = 'none';
   document.getElementById('resumen-bar-btn').style.display = 'none';
-  // Limpiar carrito al cambiar cliente
   carrito = {};
   renderAcordeon();
   actualizarResumenBar();
@@ -1472,18 +1404,15 @@ function registrarVisitaSinVenta() {
   lista.push(visita);
   guardarEnStorage(lista);
   actualizarBadgeNav();
-  // Limpiar y volver al inicio
   document.getElementById('visita-motivo').value = '';
   resetPedidoUI();
   alert('✅ Visita registrada para '+clienteActual.nombre+'\nSe guardó con GPS y hora.');
 }
 
 function resetPedidoUI() {
-  // Limpiar selección de cliente
   document.querySelectorAll('.cliente-item').forEach(i=>i.classList.remove('selected'));
   clienteActual = {nombre:'', sub:'', segmento:'horeca'};
   clienteConfirmado = false;
-  // Restaurar elementos ocultos durante catálogo
   const gpsBar = document.querySelector('.gps-bar');
   const resBar = document.querySelector('.resultado-bar');
   const resLbl = document.querySelector('#s-pedido > p');
@@ -1493,12 +1422,10 @@ function resetPedidoUI() {
   if(resBar) resBar.style.display = '';
   if(resLbl) resLbl.style.display = '';
   if(segBar) segBar.style.display = '';
-  // Ocultar chip y mostrar panel cliente
   const chip = document.getElementById('cliente-chip');
   if(chip) chip.style.display = 'none';
   const panel = document.getElementById('panel-cliente');
   if(panel) panel.style.display = 'flex';
-  // Ocultar secciones
   const tag = document.getElementById('cliente-tag');
   if(tag) tag.style.display = 'none';
   const sec = document.getElementById('seccion-productos');
@@ -1506,9 +1433,7 @@ function resetPedidoUI() {
   document.getElementById('btn-continuar-pedido').style.display = 'none';
   document.getElementById('btn-reg-visita').style.display = 'none';
   document.getElementById('resumen-bar-btn').style.display = 'none';
-  // Reset resultado de visita
   setResultadoVisita('pedido');
-  // Limpiar carrito
   carrito = {};
   renderAcordeon();
   actualizarResumenBar();
@@ -1571,12 +1496,10 @@ function toggleSec(cat) {
 function cambiarQty(code, delta) {
   carrito[code] = Math.max(0,(carrito[code]||0)+delta);
   const qty = carrito[code];
-  // actualizar DOM sin re-renderizar
   const qtyEl = document.getElementById('qty-'+code);
   if(qtyEl) qtyEl.textContent = qty;
   const rowEl = document.getElementById('row-'+code);
   if(rowEl) rowEl.classList.toggle('has-qty', qty>0);
-  // actualizar badge de sección
   const prod = PRODUCTOS.find(p=>p.code===code);
   if(prod) {
     const prods = PRODUCTOS.filter(p=>p.cat===prod.cat);
@@ -1629,7 +1552,6 @@ function buscarCodigo(val) {
 
 function agregarDesdeCodigo(code) {
   cambiarQty(code, 1);
-  // abrir sección y limpiar buscador
   const prod = PRODUCTOS.find(p=>p.code===code);
   if(prod) seccionesAbiertas.add(prod.cat);
   renderAcordeon();
@@ -1680,7 +1602,7 @@ function generarResumen() {
 function buildMsgWA(pedido) {
   const p = pedido || null;
   const cliente = p ? p.cliente : clienteActual;
-  const seg     = p ? p.segmento : segmentoActual;
+  const seg      = p ? p.segmento : segmentoActual;
   const items   = p ? p.items : null;
   const nota    = p ? p.nota : (document.getElementById('nota-pedido').value||'');
   const gps     = p ? p.gps : gpsCoords;
@@ -1713,7 +1635,6 @@ function abrirWA(msg) {
   const encoded = encodeURIComponent(msg);
   const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
   if(isMobile) {
-    // intenta app nativa primero (funciona sin internet, queda en cola)
     const t = setTimeout(()=>{ window.open('https://wa.me/?text='+encoded,'_blank'); }, 2000);
     window.location.href = 'whatsapp://send?text='+encoded;
     window.addEventListener('blur', ()=>clearTimeout(t), {once:true});
@@ -1972,7 +1893,6 @@ let deferredInstallPrompt = null;
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   deferredInstallPrompt = e;
-  // Mostrar botón de instalación en el login
   const btn = document.getElementById('btn-instalar-app');
   if (btn) btn.style.display = 'flex';
 });
