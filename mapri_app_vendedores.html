@@ -10,7 +10,6 @@
     <meta name="theme-color" content="#4F46E5">
     
     <style>
-        /* Estilos personalizados para emular una App Nativa */
         body {
             -webkit-tap-highlight-color: transparent;
             -webkit-touch-callout: none;
@@ -29,7 +28,6 @@
         .nav-item i {
             transition: transform 0.2s ease, color 0.2s ease;
         }
-        /* Ocultar scrollbars */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -37,7 +35,6 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-        /* Animación de carga */
         .spinner {
             border: 3px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
@@ -49,14 +46,6 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
-        }
-        /* Alertas flotantes */
-        .toast {
-            animation: slideUp 0.3s ease out forwards;
-        }
-        @keyframes slideUp {
-            from { transform: translate(-50%, 100px); opacity: 0; }
-            to { transform: translate(-50%, 0); opacity: 1; }
         }
     </style>
 </head>
@@ -164,7 +153,6 @@
                     </div>
 
                     <div class="space-y-3 divide-y divide-gray-50" id="lista-productos">
-                        
                         <div class="flex items-center justify-between pt-3 first:pt-0 product-row" data-id="P001" data-nombre="Producto Alfa" data-precio="150.00">
                             <div class="flex-1 pr-2">
                                 <h4 class="text-sm font-bold text-gray-800">Producto Alfa</h4>
@@ -212,7 +200,6 @@
                                 <button class="w-8 h-8 rounded-lg bg-white shadow-sm text-gray-600 active:bg-gray-100 flex items-center justify-center transition font-bold btn-plus">+</button>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
@@ -239,7 +226,6 @@
                     <h3 class="text-sm font-bold text-gray-800 uppercase tracking-wider">Registros Realizados</h3>
                     <span id="pendientes-badge" class="bg-amber-100 text-amber-700 text-[11px] font-bold px-2.5 py-1 rounded-full hidden">0 Pendientes</span>
                 </div>
-
                 <div class="space-y-3" id="lista-historial">
                     <div class="bg-white rounded-2xl p-8 text-center border border-gray-100 text-gray-400 space-y-2" id="historial-vacio">
                         <i class="fa-solid fa-folder-open text-3xl text-gray-300"></i>
@@ -320,23 +306,19 @@
     <div id="toast-container" class="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 w-full max-w-xs px-4 pointer-events-none"></div>
 
     <script>
-        // CONFIGURACIÓN DE ACCESOS (SEGURIDAD COMPATIBLE CHROME VPA)
         const VENDEDORES = {
             "carlos.m": { nombre: "Carlos Mendoza", clave: "MpFs*2026x" },
             "ana.l": { nombre: "Ana López", clave: "AnLf#9841m" },
             "roberto.p": { nombre: "Roberto Pérez", clave: "RbPz@7532k" }
         };
 
-        // URL DE ENLACE DE CONEXIÓN CON GOOGLE SHEETS DEPLOMENT MACROS
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz7iiUJKbuF63qU_nlL6jYbp97k_uO90AG4OoMxFv0oojf1weO19F0lWtUoMUSNfAFw0Q/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyhd4grTw6nfpW8Fq1qe3vzq8KYx20t6y19Y3OVtg6u7Xlf3i9nsJNYSfLtiV3Pc4BveA/exec";
 
-        // ESTADO GLOBAL EN MEMORIA DE LA APP
         let currentUser = JSON.parse(localStorage.getItem('vta_user')) || null;
         let carrito = {};
         let ventasLocales = JSON.parse(localStorage.getItem('vta_records')) || [];
         let isSyncing = false;
 
-        // INICIALIZADOR AL CARGAR DOCUMENTO
         document.addEventListener("DOMContentLoaded", () => {
             initAuth();
             setupNavigation();
@@ -346,12 +328,10 @@
             updateDashboard();
             checkNetworkStatus();
 
-            // Escuchar cambios de red nativos del sistema
             window.addEventListener('online', handleNetworkChange);
             window.addEventListener('offline', handleNetworkChange);
         });
 
-        // MANEJO DE AUTENTICACIÓN
         function initAuth() {
             const loginScreen = document.getElementById('login-screen');
             const appContainer = document.getElementById('app-container');
@@ -369,7 +349,6 @@
                 const passIn = document.getElementById('password').value;
                 const btnLogin = document.getElementById('btn-login');
 
-                // UI loading feedback
                 btnLogin.disabled = true;
                 btnLogin.innerHTML = `<div class="spinner"></div> <span>Validando...</span>`;
 
@@ -402,21 +381,18 @@
             });
         }
 
-        // NAVEGACIÓN ENTRE VISTAS (TAB BAR)
         function setupNavigation() {
             const items = document.querySelectorAll('.nav-item');
             items.forEach(item => {
                 item.addEventListener('click', () => {
                     const targetView = item.getAttribute('data-target');
                     
-                    // Cambiar estados de la barra
                     items.forEach(i => i.classList.remove('nav-active', 'text-gray-400'));
                     items.forEach(i => {
                         if(i !== item) i.classList.add('text-gray-400');
                     });
                     item.classList.add('nav-active');
 
-                    // Mostrar/Ocultar vistas con transiciones controladas
                     ['view-nueva-venta', 'view-historial', 'view-rendimiento'].forEach(viewId => {
                         const el = document.getElementById(viewId);
                         if(viewId === targetView) {
@@ -432,7 +408,6 @@
             });
         }
 
-        // CONTROL DE UNIDADES DEL CATÁLOGO
         function setupCatalog() {
             const rows = document.querySelectorAll('.product-row');
             rows.forEach(row => {
@@ -460,11 +435,9 @@
                 });
             });
 
-            // Listener de envío de formulario de venta
             document.getElementById('btn-registrar-venta').addEventListener('click', procesarRegistroVenta);
         }
 
-        // CÁLCULO DE TOTALES DE ORDEN
         function calculateTotals() {
             let totalItems = 0;
             let totalDinero = 0;
@@ -479,7 +452,6 @@
             document.getElementById('txt-total').innerText = `Q${totalDinero.toFixed(2)}`;
         }
 
-        // RESETEAR FORMULARIO TRAS ÉXITO
         function resetFormularioVenta() {
             carrito = {};
             document.getElementById('venta-cliente').value = '';
@@ -492,7 +464,6 @@
             document.querySelectorAll('.qty-value').forEach(span => span.innerText = '0');
         }
 
-        // PROCESAMIENTO NATIVO DE LA ORDEN (STORAGE + BUFFER)
         function procesarRegistroVenta() {
             const cliente = document.getElementById('venta-cliente').value.trim();
             const telefono = document.getElementById('venta-telefono').value.trim();
@@ -517,7 +488,6 @@
                 totalDinero += (carrito[id].cantidad * carrito[id].precio);
             });
 
-            // Crear objeto de datos estructurado
             const nuevaVenta = {
                 id: 'VTA-' + Date.now(),
                 fecha: new Date().toLocaleString('es-GT', { timeZone: 'America/Guatemala' }),
@@ -527,26 +497,21 @@
                 productos: itemsComprados.join(', '),
                 pago: tipoPago,
                 total: totalDinero,
-                sync: false // Flag nativo offline-first
+                sync: false
             };
 
-            // Inyectar a base de datos indexada local
             ventasLocales.unshift(nuevaVenta);
             localStorage.setItem('vta_records', JSON.stringify(ventasLocales));
 
             showToast("Venta guardada localmente", "success");
             resetFormularioVenta();
-            
-            // Intentar empujar al Google Sheet inmediatamente
             forceSyncData();
         }
 
-        // RENDERIZADO DE LA VISTA DE HISTORIAL
         function renderHistorial() {
             const container = document.getElementById('lista-historial');
             const vacio = document.getElementById('historial-vacio');
             
-            // Limpiar nodos viejos excepto el mensaje vacío
             const itemsViejos = container.querySelectorAll('.historial-item');
             itemsViejos.forEach(i => i.remove());
 
@@ -587,7 +552,6 @@
             updateBadges();
         }
 
-        // ACTUALIZAR BADGES NUMÉRICOS
         function updateBadges() {
             const pendientes = ventasLocales.filter(v => !v.sync).length;
             const badgeHistorial = document.getElementById('pendientes-badge');
@@ -603,7 +567,6 @@
             }
         }
 
-        // CONTROL DE RENDIMIENTO (DASHBOARD)
         function updateDashboard() {
             let totalVendido = 0;
             let totalTransacciones = 0;
@@ -620,8 +583,7 @@
             document.getElementById('dash-total-vendido').innerText = `Q${totalVendido.toFixed(2)}`;
             document.getElementById('dash-total-ventas').innerText = `${totalTransacciones} transacciones liquidadas con éxito`;
 
-            // Calcular porcentajes para las barras
-            const totalMetodos = totalVendido || 1; // Evitar división por cero
+            const totalMetodos = totalVendido || 1;
             const pctEfectivo = ((contadoresPago['Efectivo'] / totalMetodos) * 100).toFixed(0);
             const pctTransf = ((contadoresPago['Transferencia'] / totalMetodos) * 100).toFixed(0);
             const pctTarjeta = ((contadoresPago['Tarjeta'] / totalMetodos) * 100).toFixed(0);
@@ -636,7 +598,6 @@
             document.getElementById('bar-pct-tarjeta').style.width = `${pctTarjeta}%`;
         }
 
-        // NOTIFICACIONES TOAST DINÁMICAS
         function showToast(message, type = "success") {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
@@ -659,7 +620,6 @@
             }, 3000);
         }
 
-        // CONFIGURAR SINCRO MANUAL DESDE UI
         function setupSyncEvents() {
             document.getElementById('btn-force-sync').addEventListener('click', () => {
                 if(isSyncing) return;
@@ -668,7 +628,6 @@
             });
         }
 
-        // VERIFICAR CONEXIÓN DE RED A INTERNET
         function checkNetworkStatus() {
             const indicator = document.getElementById('sync-status');
             if(navigator.onLine) {
@@ -690,7 +649,6 @@
             }
         }
 
-        // SINCRONIZADOR NATIVO ASÍNCRONO HACIA GOOGLE APPS SCRIPT
         async function forceSyncData() {
             if (isSyncing || !navigator.onLine || !currentUser) return;
 
@@ -701,12 +659,10 @@
             const iconRotate = document.getElementById('btn-force-sync').querySelector('i');
             iconRotate.classList.add('fa-spin');
 
-            // Procesar uno por uno para asegurar atomicidad y evitar bloqueos en Google
             for(let i = pendientes.length - 1; i >= 0; i--) {
                 const v = pendientes[i];
                 
                 try {
-                    // Convertir objeto plano a formato URL encoded para POST/GET legacy
                     const params = new URLSearchParams({
                         id: v.id,
                         fecha: v.fecha,
@@ -718,7 +674,6 @@
                         total: v.total
                     });
 
-                    // Petición nativa Fetch cruzando CORS mediante no-cors o JSONP según backend
                     const response = await fetch(`${SCRIPT_URL}?${params.toString()}`, {
                         method: 'GET',
                         mode: 'cors'
@@ -727,7 +682,6 @@
                     const resData = await response.json();
 
                     if(resData && resData.status === "success") {
-                        // Marcar registro local como sincronizado
                         const index = ventasLocales.findIndex(item => item.id === v.id);
                         if(index !== -1) {
                             ventasLocales[index].sync = true;
@@ -735,17 +689,14 @@
                     }
                 } catch (error) {
                     console.error("Fallo de envío en registro individual: ", error);
-                    // Romper bucle si el servidor se cae a mitad del proceso
                     break;
                 }
             }
 
-            // Guardar estado final de la base local
             localStorage.setItem('vta_records', JSON.stringify(ventasLocales));
             isSyncing = false;
             iconRotate.classList.remove('fa-spin');
             
-            // Actualizar componentes UI
             renderHistorial();
             updateDashboard();
         }
