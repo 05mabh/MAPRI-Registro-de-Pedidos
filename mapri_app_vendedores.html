@@ -91,6 +91,7 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
 .seg-btn.seg-mercado.active{background:rgba(45,106,79,.2);border-color:var(--verde2);color:#6ECFA0;}
 .seg-btn.seg-horeca.active{background:rgba(59,130,246,.2);border-color:var(--azul);color:var(--azul2);}
 .seg-btn.seg-institucional.active{background:rgba(232,96,26,.2);border-color:var(--brasa);color:var(--brasa2);}
+.seg-btn.seg-catering.active{background:rgba(160,64,200,.2);border-color:#A040C8;color:#C87EE8;}
 
 /* SCROLL */
 .scroll-area{flex:1;overflow-y:auto;padding:0 16px;}
@@ -392,6 +393,27 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
   display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;}
 .btn-sync:hover,.btn-sync:active{background:rgba(59,130,246,.22);}
 .btn-sync.syncing{opacity:.6;pointer-events:none;}
+/* ── META PROGRESS BAR ── */
+.meta-progress-wrap{margin:10px 0 4px;}
+.meta-progress-bar{height:10px;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden;margin:6px 0;}
+.meta-progress-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--verde2),#6ECFA0);transition:width .6s ease;}
+.meta-progress-fill.warning{background:linear-gradient(90deg,var(--amarillo),#F5C842);}
+.meta-progress-fill.critical{background:linear-gradient(90deg,var(--rojo),#F87171);}
+.meta-row{display:flex;justify-content:space-between;font-size:11px;color:var(--crema2);font-family:'Barlow Condensed',sans-serif;}
+.meta-pct{font-size:20px;font-weight:900;font-family:'Barlow Condensed',sans-serif;color:#6ECFA0;letter-spacing:1px;}
+.meta-pct.warning{color:var(--amarillo);}
+.meta-pct.critical{color:#F87171;}
+/* ── ADMIN PANEL ── */
+.admin-sync-btn{width:100%;margin-bottom:8px;background:rgba(160,64,200,.15);border:1.5px solid rgba(160,64,200,.4);
+  border-radius:12px;padding:12px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;
+  letter-spacing:2px;text-transform:uppercase;color:#C87EE8;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;}
+.admin-vendedor-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.admin-vendedor-row:last-child{border-bottom:none;}
+.admin-vend-info{font-size:12px;color:var(--crema);font-weight:600;}
+.admin-vend-cred{font-size:10px;color:var(--crema2);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;margin-top:2px;}
+.admin-vend-badge{background:rgba(232,96,26,.15);border:1px solid rgba(232,96,26,.3);border-radius:8px;padding:3px 10px;
+  font-size:10px;font-weight:800;color:var(--brasa);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;}
 .sync-status{font-size:11px;text-align:center;margin-bottom:10px;padding:8px 14px;border-radius:10px;display:none;}
 .sync-ok{background:rgba(45,106,79,.2);color:#6ECFA0;display:block;}
 .sync-err{background:rgba(232,58,58,.15);color:#F87171;display:block;}
@@ -442,7 +464,7 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
       text-transform:uppercase;color:var(--brasa);cursor:pointer;align-items:center;justify-content:center;gap:8px;">
       📲 Instalar App en este celular
     </button>
-    <p class="login-version">MAPRI App v3.2 · Catálogo Marzo 2026</p>
+    <p class="login-version">MAPRI App v4.0 · Catálogo Marzo 2026</p>
   </div>
 
   <!-- NUEVO PEDIDO -->
@@ -556,6 +578,7 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
         <button class="seg-btn seg-mercado" data-seg="mercado" onclick="setSegmento(this,'mercado')"><span>🏪</span>Mercado</button>
         <button class="seg-btn seg-horeca active" data-seg="horeca" onclick="setSegmento(this,'horeca')"><span>🍽️</span>HORECA</button>
         <button class="seg-btn seg-institucional" data-seg="institucional" onclick="setSegmento(this,'institucional')"><span>🏢</span>Institucional</button>
+        <button class="seg-btn seg-catering" data-seg="catering" onclick="setSegmento(this,'catering')"><span>🎪</span>Catering</button>
       </div>
       <div class="scroll-area" style="flex:1;">
       <!-- BUSCADOR / CÓDIGO RÁPIDO -->
@@ -762,10 +785,28 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
         <div id="dash-resumen-dia"><div style="font-size:12px;color:rgba(245,239,224,.25);text-align:center;padding:10px;">Sin actividad hoy</div></div>
       </div>
 
+      <!-- Meta empresa -->
+      <div class="dash-card" id="dash-meta-card">
+        <div class="dash-card-title">🎯 Meta empresa — <span id="dash-meta-mes">—</span></div>
+        <div id="dash-meta-info"><div style="font-size:12px;color:rgba(245,239,224,.25);">—</div></div>
+      </div>
+
+      <!-- Cuota vendedor -->
+      <div class="dash-card" id="dash-cuota-card">
+        <div class="dash-card-title">📈 Mi cuota mensual</div>
+        <div id="dash-cuota-info"><div style="font-size:12px;color:rgba(245,239,224,.25);">—</div></div>
+      </div>
+
       <!-- Vendedor activo -->
       <div class="dash-card" id="dash-vend-card">
         <div class="dash-card-title">👤 Vendedor Activo</div>
         <div id="dash-vend-info"><div style="font-size:12px;color:rgba(245,239,224,.25);">—</div></div>
+      </div>
+
+      <!-- Panel Admin — solo para InsightPro -->
+      <div class="dash-card" id="dash-admin-card" style="display:none;">
+        <div class="dash-card-title">⚙️ Panel Administrador</div>
+        <div id="dash-admin-info"></div>
       </div>
 
       <div style="height:16px;"></div>
@@ -854,9 +895,12 @@ body{font-family:'Barlow',sans-serif;display:flex;align-items:center;justify-con
 // VENDEDORES — MAPRI FOOD SERVICE
 // ═══════════════════════════════════════════════
 const VENDEDORES = [
-  {id:'V001', nombre:'Carlos Mendoza López',  usuario:'carlos.m',  pass:'1234', zona:'Zona 10 / Zona 14', comision:0.03, avatar:'CM'},
-  {id:'V002', nombre:'Ana López García',       usuario:'ana.l',     pass:'5678', zona:'Zona 6 / Zona 1',   comision:0.03, avatar:'AL'},
-  {id:'V003', nombre:'Roberto Pérez Díaz',     usuario:'roberto.p', pass:'9012', zona:'Zona 7 / Mixco',    comision:0.03, avatar:'RP'},
+  // ── ADMINISTRADOR InsightPro ── (clave maestra para sincronización y show)
+  {id:'A001', nombre:'Administrador MAPRI',    usuario:'admin',     pass:'mapri2026', zona:'Oficina Central',  comision:0.00, avatar:'AD'},
+  // ── VENDEDORES ──
+  {id:'V001', nombre:'Carlos Mendoza López',   usuario:'carlos.m',  pass:'1234', zona:'Zona 10 / Zona 14', comision:0.03, avatar:'CM'},
+  {id:'V002', nombre:'Ana López García',        usuario:'ana.l',     pass:'5678', zona:'Zona 6 / Zona 1',   comision:0.03, avatar:'AL'},
+  {id:'V003', nombre:'Roberto Pérez Díaz',      usuario:'roberto.p', pass:'9012', zona:'Zona 7 / Mixco',    comision:0.03, avatar:'RP'},
 ];
 
 // ═══════════════════════════════════════════════
@@ -960,8 +1004,8 @@ const SECCIONES = [
   {cat:'papas',    emoji:'🍟', label:'Papas y Aperitivos'},
   {cat:'otros',    emoji:'🧀', label:'Otros Productos'},
 ];
-const SEG_LABELS = {hogar:'Hogar',mercado:'Mercado',horeca:'HORECA',institucional:'Institucional'};
-const SEG_TAG_CLASS = {hogar:'seg-hogar-tag',mercado:'seg-mercado-tag',horeca:'seg-horeca-tag',institucional:'seg-institucional-tag'};
+const SEG_LABELS = {hogar:'Hogar',mercado:'Mercado',horeca:'HORECA',institucional:'Institucional',catering:'Catering'};
+const SEG_TAG_CLASS = {hogar:'seg-hogar-tag',mercado:'seg-mercado-tag',horeca:'seg-horeca-tag',institucional:'seg-institucional-tag',catering:'seg-catering-tag'};
 
 // ═══ ESTADO ═══
 let segmentoActual = 'horeca';
@@ -979,6 +1023,20 @@ let vendedorActual = null;
 // Pega aquí la URL de tu Google Apps Script Web App
 // ══════════════════════════════════════════════
 let WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbwFN_gmMujfEMa9A8_S3c4Y75ZhWGMWGTqrE4pxXCJM1bYZKs7qTEORKfYA66QiqtcVyg/exec';
+
+// ══════════════════════════════════════════════
+// METAS Y CUOTAS — CONFIGURACIÓN MENSUAL
+// Actualizar cada mes antes de entregar
+// ══════════════════════════════════════════════
+const CONFIG_METAS = {
+  mes: 'Mayo 2026',
+  metaEmpresa: 50000,         // Meta total empresa Q
+  cuotas: {
+    'V001': 20000,             // Carlos Mendoza
+    'V002': 15000,             // Ana López
+    'V003': 15000,             // Roberto Pérez
+  }
+};
 
 // ═══ TIEMPO + GPS ═══
 function updateTime() {
@@ -1249,6 +1307,74 @@ function renderDashboard() {
   </div>
   <div style="font-size:10px;color:rgba(245,239,224,.3);margin-top:6px;">Comisión estimada ${(v.comision*100).toFixed(0)}% sobre Q${totalVentas.toFixed(2)} en ventas</div>`; }
   else { vEl.innerHTML='<div style="font-size:12px;color:rgba(245,239,224,.25);">Inicia sesión para ver tus datos</div>'; }
+
+  // ── META EMPRESA ──
+  const metaEl = document.getElementById('dash-meta-info');
+  const mesEl  = document.getElementById('dash-meta-mes');
+  if(mesEl) mesEl.textContent = CONFIG_METAS.mes;
+  const metaEmp = CONFIG_METAS.metaEmpresa;
+  const pctEmp  = Math.min((totalVentas / metaEmp) * 100, 100);
+  const clsMeta = pctEmp >= 80 ? '' : pctEmp >= 50 ? 'warning' : 'critical';
+  if(metaEl) metaEl.innerHTML = `
+    <div class="meta-pct ${clsMeta}">${pctEmp.toFixed(1)}%</div>
+    <div class="meta-progress-wrap">
+      <div class="meta-progress-bar">
+        <div class="meta-progress-fill ${clsMeta}" style="width:${pctEmp}%"></div>
+      </div>
+    </div>
+    <div class="meta-row">
+      <span>Alcanzado: ${fmt(totalVentas)}</span>
+      <span>Meta: ${fmt(metaEmp)}</span>
+    </div>
+    <div class="meta-row" style="margin-top:4px;">
+      <span style="color:var(--brasa);">Faltante: ${fmt(Math.max(0, metaEmp - totalVentas))}</span>
+      <span>${totalPedidos} pedido${totalPedidos!==1?'s':''}</span>
+    </div>`;
+
+  // ── CUOTA VENDEDOR ──
+  const cuotaEl = document.getElementById('dash-cuota-info');
+  if(cuotaEl && v) {
+    const cuota = CONFIG_METAS.cuotas[v.id] || 0;
+    const pctCuota = cuota > 0 ? Math.min((totalVentas / cuota) * 100, 100) : 0;
+    const clsCuota = pctCuota >= 80 ? '' : pctCuota >= 50 ? 'warning' : 'critical';
+    cuotaEl.innerHTML = `
+      <div class="meta-pct ${clsCuota}">${pctCuota.toFixed(1)}%</div>
+      <div class="meta-progress-wrap">
+        <div class="meta-progress-bar">
+          <div class="meta-progress-fill ${clsCuota}" style="width:${pctCuota}%"></div>
+        </div>
+      </div>
+      <div class="meta-row">
+        <span>Mis ventas: ${fmt(totalVentas)}</span>
+        <span>Cuota: ${fmt(cuota)}</span>
+      </div>
+      <div class="meta-row" style="margin-top:4px;">
+        <span style="color:var(--brasa);">Faltante: ${fmt(Math.max(0, cuota - totalVentas))}</span>
+        <span>Comisión: ${fmt(comision)}</span>
+      </div>`;
+  } else if(cuotaEl) {
+    cuotaEl.innerHTML = '<div style="font-size:12px;color:rgba(245,239,224,.25);">Inicia sesión para ver tu cuota</div>';
+  }
+
+  // ── PANEL ADMIN (solo usuario admin) ──
+  const adminCard = document.getElementById('dash-admin-card');
+  const adminInfo = document.getElementById('dash-admin-info');
+  if(v && v.id === 'A001') {
+    if(adminCard) adminCard.style.display = 'block';
+    if(adminInfo) adminInfo.innerHTML = `
+      <button class="admin-sync-btn" onclick="sincronizarPedidos()">☁️ Sincronizar TODOS los pedidos a Sheets</button>
+      <p style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(200,191,168,.5);margin:10px 0 6px;">Credenciales vendedores</p>
+      ${VENDEDORES.filter(x=>x.id!=='A001').map(x=>`
+      <div class="admin-vendedor-row">
+        <div>
+          <div class="admin-vend-info">${x.nombre}</div>
+          <div class="admin-vend-cred">Usuario: ${x.usuario} · Clave: ${x.pass}</div>
+        </div>
+        <span class="admin-vend-badge">${x.id}</span>
+      </div>`).join('')}`;
+  } else {
+    if(adminCard) adminCard.style.display = 'none';
+  }
 }
 
 // ═══ RESUMEN DEL DÍA ═══
@@ -1564,7 +1690,8 @@ function renderAcordeon() {
     const enCarrito = prods.filter(p=>(carrito[p.code]||0)>0).length;
     const abierto = seccionesAbiertas.has(sec.cat);
     const rows = prods.map(p=>{
-      const precio = p.precios[segmentoActual];
+      const segPrecio = segmentoActual === 'catering' ? 'institucional' : segmentoActual;
+      const precio = p.precios[segPrecio];
       const qty = carrito[p.code]||0;
       const precioTxt = precio!=null ? `Q ${precio.toFixed(2)}/${p.unidad}` : 'Consultar';
       const controles = precio!=null
@@ -1818,7 +1945,11 @@ async function sincronizarPedidos() {
 
   for (const pedido of pendientes) {
     try {
-      const payload = JSON.stringify({...pedido, vendedorId: vendedorActual ? vendedorActual.id : ''});
+      const payload = JSON.stringify({
+        ...pedido,
+        vendedorId: vendedorActual ? vendedorActual.id : pedido.vendedorId || '',
+        _dedup: pedido.numPedido || String(pedido.id)
+      });
       const url     = WEBAPP_URL + '?action=sync&data=' + encodeURIComponent(payload);
       const res     = await fetch(url, {method: 'GET', mode: 'cors'});
       const result  = await res.json();
@@ -1870,7 +2001,9 @@ function guardarPedido() {
   const now=new Date().toLocaleString('es-GT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
   const numPedido=generarNumPedido();
   const vendedor=vendedorActual?vendedorActual.nombre:'Carlos Mendoza López';
-  const pedido={id:Date.now(),numPedido,vendedor,cliente:clienteActual,segmento:segmentoActual,items,nota:document.getElementById('nota-pedido').value||'',gps:gpsCoords,timestamp:now,subtotal,iva,total,enviado:false};
+  const ahora = new Date();
+  const mes = ahora.toLocaleDateString('es-GT',{month:'2-digit',year:'numeric'}).replace('/','.');
+  const pedido={id:Date.now(),numPedido,vendedor,vendedorId:vendedorActual?vendedorActual.id:'',cliente:clienteActual,segmento:segmentoActual,items,nota:document.getElementById('nota-pedido').value||'',gps:gpsCoords,timestamp:now,mes,subtotal,iva,total,enviado:false};
   const lista=cargarPendientes(); lista.push(pedido); guardarEnStorage(lista);
   actualizarBadgeNav();
   alert('✅ Pedido '+numPedido+' guardado.\nEnvíalo desde Historial cuando tengas señal.');
